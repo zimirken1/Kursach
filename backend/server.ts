@@ -15,7 +15,7 @@ app.use(cookieParser())
 app.use(cors())
 app.use('/api', router)
 
-const prisma = new PrismaClient()
+export const prisma = new PrismaClient()
 
 const main = async () => {
   await prisma.$connect()
