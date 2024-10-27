@@ -3,12 +3,12 @@ import { Request, Response, NextFunction } from 'express'
 import { userService } from 'src/service/user-service'
 
 class UserController {
-  async registration(req: Request, res: Response, next: NextFunction) {
+  async registration(req: Request, res: Response) {
     try {
       const { email, password } = req.body
       const userData = await userService.registration(email, password)
       res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30d
         httpOnly: true,
       })
       return res.json(userData)

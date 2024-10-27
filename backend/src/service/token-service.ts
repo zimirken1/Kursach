@@ -23,7 +23,7 @@ class TokenService {
   }
 
   async saveToken(userId: string, refreshToken: string) {
-    const tokenData = await prisma.token.findUnique({ where: { userId } })
+    const tokenData = await prisma.token.findFirst({ where: { userId } })
 
     if (tokenData) {
       return await prisma.token.update({

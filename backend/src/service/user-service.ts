@@ -20,7 +20,7 @@ class UserService {
 
     const userDto = new UserDto(user)
 
-    const tokens = await tokenService.generateTokens(userDto)
+    const tokens = await tokenService.generateTokens({ ...userDto })
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
     return { ...tokens, user: userDto }
