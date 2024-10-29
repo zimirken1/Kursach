@@ -1,3 +1,5 @@
+import { ValidationError } from 'express-validator'
+
 export enum Status {
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
@@ -8,20 +10,27 @@ export enum Status {
 
 export class ApiError extends Error {
   status: Status
-  error: string
+  errors?: Array<Error | ValidationError>
 
-  constructor(status: Status, message: string) {
+  constructor(
+    status: Status,
+    message?: string,
+    errors?: Array<Error | ValidationError>
+  ) {
     super(message)
     this.status = status
-    this.error = message
+    this.errors = errors
   }
 
-  static BadRequest(message: string) {
-    return new ApiError(Status.BAD_REQUEST, message)
+  static BadRequest(
+    message: string,
+    errors: Array<Error | ValidationError> = []
+  ) {
+    return new ApiError(Status.BAD_REQUEST, message, errors)
   }
 
-  static Unauthorized(message: string) {
-    return new ApiError(Status.UNAUTHORIZED, message)
+  static Unauthorized() {
+    return new ApiError(Status.UNAUTHORIZED, 'Пользователь не авторизован')
   }
 
   static Forbidden(message: string) {
@@ -30,9 +39,5 @@ export class ApiError extends Error {
 
   static NotFound(message: string) {
     return new ApiError(Status.NOT_FOUND, message)
-  }
-
-  static Internal(message: string) {
-    return new ApiError(Status.INTERNAL_SERVER_ERROR, message)
   }
 }

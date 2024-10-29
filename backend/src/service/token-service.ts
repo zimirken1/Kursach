@@ -1,4 +1,5 @@
 import Jwt from 'jsonwebtoken'
+import { Token } from '@prisma/client'
 
 import { prisma } from '../../server'
 import UserDto from '../dto/user-dto'
@@ -23,7 +24,7 @@ class TokenService {
   }
 
   async saveToken(userId: string, refreshToken: string) {
-    const tokenData = await prisma.token.findFirst({ where: { userId } })
+    const tokenData = await prisma.token.findUnique({ where: { userId } })
 
     if (tokenData) {
       return await prisma.token.update({
@@ -38,6 +39,13 @@ class TokenService {
         },
       })
     }
+  }
+
+  async removeToken(refreshToken: string) {
+    const tokenData = await prisma.token.delete({
+      where: { refreshToken },
+    })
+    return tokenData
   }
 }
 

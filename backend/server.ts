@@ -5,6 +5,7 @@ import cors from 'cors'
 import { PrismaClient } from '@prisma/client'
 
 import { router } from 'src/router'
+import { errorMiddleware } from 'src/middleware/error-middleware'
 
 dotenv.config()
 
@@ -14,6 +15,9 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
 app.use('/api', router)
+
+// @ts-ignore
+app.use(errorMiddleware)
 
 export const prisma = new PrismaClient()
 
