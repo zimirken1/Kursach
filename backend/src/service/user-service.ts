@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt'
 
-import { prisma } from 'server'
+import { prisma } from '../../server'
 import { tokenService } from './token-service'
+import { ApiError } from '../exceptions/api-error'
 import UserDto from 'src/dto/user-dto'
 
 class UserService {
@@ -10,7 +11,9 @@ class UserService {
       where: { email },
     })
     if (candidate) {
-      throw new Error(`Пользователь с почтовым адресом ${email} уже существует`)
+      throw ApiError.BadRequest(
+        `Пользователь с почтовым адресом ${email} уже существует`
+      )
     }
 
     const hashPassword = await bcrypt.hash(password, 3)

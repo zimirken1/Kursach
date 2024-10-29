@@ -1,7 +1,7 @@
 import Jwt from 'jsonwebtoken'
 
-import { prisma } from 'server'
-import UserDto from 'src/dto/user-dto'
+import { prisma } from '../../server'
+import UserDto from '../dto/user-dto'
 
 class TokenService {
   async generateTokens(payload: UserDto) {
