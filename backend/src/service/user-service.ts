@@ -42,11 +42,49 @@ class UserService {
     return token
   }
 
-  private async generateTokensForUser(user: User) {
+  async refresh(refreshToken: string) {
+    if (!refreshToken) {
+      throw ApiError.Unauthorized()
+    }
+
+    const userData = tokenService.validateRefreshToken(refreshToken)
+
+    if (!userData) {
+      throw ApiError.Unauthorized()
+    }
+
+    const token = await tokenService.findToken(refreshToken)
+    if (!token) {
+      throw ApiError.Unauthorized()
+    }
+
+    const userId = typeof userData === 'string' ? userData : userData.id
+    if (!userId) {
+      throw ApiError.Unauthorized()
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+    if (!user) {
+      throw ApiError.Unauthorized()
+    }
+
+    const userDto = new UserDto(user)
+    const tokens = await tokenService.generateTokens({ ...userDto })
+
+    await tokenService.saveToken(userDto.id, tokens.refreshToken)
+    return { ...tokens, user: userDto }
+  }
+
+  async generateTokensForUser(user: User) {
     const userDto = new UserDto(user)
     const tokens = await tokenService.generateTokens({ ...userDto })
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
     return { ...tokens, user: userDto }
+  }
+
+  async getAllUsers() {
+    const users = await prisma.user.findMany()
+    return users
   }
 }
 

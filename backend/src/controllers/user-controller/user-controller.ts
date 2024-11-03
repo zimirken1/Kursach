@@ -1,11 +1,18 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
 
-import { userService } from '../service/user-service'
+import { RequestWithBody } from 'types/types'
+import { UserUpdateModel, UserLoginModel } from './types'
+import { userService } from '../../service/user-service'
 import { ApiError } from 'src/exceptions/api-error'
+import { User } from '@prisma/client'
 
 class UserController {
-  async registration(req: Request, res: Response, next: NextFunction) {
+  async registration(
+    req: RequestWithBody<{ email: string; password: string }>,
+    res: Response<UserUpdateModel>,
+    next: NextFunction
+  ) {
     try {
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
@@ -13,25 +20,29 @@ class UserController {
       }
       const { email, password } = req.body
       const userData = await userService.registration(email, password)
-      this.setRefreshTokenCookie(res, userData.refreshToken)
+      UserController.setRefreshTokenCookie(res, userData.refreshToken)
       res.json(userData)
     } catch (error) {
       next(error)
     }
   }
 
-  async login(req: Request, res: Response, next: NextFunction) {
+  async login(
+    req: RequestWithBody<UserLoginModel>,
+    res: Response<UserUpdateModel>,
+    next: NextFunction
+  ) {
     try {
       const { email, password } = req.body
       const userData = await userService.login(email, password)
-      this.setRefreshTokenCookie(res, userData.refreshToken)
+      UserController.setRefreshTokenCookie(res, userData.refreshToken)
       res.json(userData)
     } catch (error) {
       next(error)
     }
   }
 
-  async logout(req: Request, res: Response, next: NextFunction) {
+  async logout(req: Request, res: Response<Promise<void>>, next: NextFunction) {
     try {
       const { refreshToken } = req.cookies
       const token = userService.logout(refreshToken)
@@ -42,22 +53,31 @@ class UserController {
     }
   }
 
-  async refresh(req: Request, res: Response, next: NextFunction) {
+  async refresh(
+    req: Request,
+    res: Response<UserUpdateModel>,
+    next: NextFunction
+  ) {
     try {
+      const { refreshToken } = req.cookies
+      const userData = await userService.refresh(refreshToken)
+      UserController.setRefreshTokenCookie(res, userData.refreshToken)
+      res.json(userData)
     } catch (error) {
       next(error)
     }
   }
 
-  async getUsers(req: Request, res: Response, next: NextFunction) {
+  async getUsers(req: Request, res: Response<User[]>, next: NextFunction) {
     try {
-      res.json(['123', '456'])
+      const users = await userService.getAllUsers()
+      res.json(users)
     } catch (error) {
       next(error)
     }
   }
 
-  private setRefreshTokenCookie(res: Response, refreshToken: string) {
+  static setRefreshTokenCookie(res: Response, refreshToken: string) {
     res.cookie('refreshToken', refreshToken, {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 дней
       httpOnly: true,

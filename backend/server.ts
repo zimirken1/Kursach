@@ -9,7 +9,7 @@ import { errorMiddleware } from 'src/middleware/error-middleware'
 
 dotenv.config()
 
-const app = express()
+const app: express.Application = express()
 
 app.use(express.json())
 app.use(cookieParser())
