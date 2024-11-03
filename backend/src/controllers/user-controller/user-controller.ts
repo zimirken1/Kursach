@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express'
 import { validationResult } from 'express-validator'
+import { User } from '@prisma/client'
 
 import { RequestWithBody } from 'types/types'
 import { UserUpdateModel, UserLoginModel } from './types'
 import { userService } from '../../service/user-service'
 import { ApiError } from 'src/exceptions/api-error'
-import { User } from '@prisma/client'
 
 class UserController {
   async registration(
-    req: RequestWithBody<{ email: string; password: string }>,
+    req: RequestWithBody<UserLoginModel>,
     res: Response<UserUpdateModel>,
     next: NextFunction
   ) {
