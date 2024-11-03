@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --exit-child --compiler-options '{\"module\":\"commonjs\"}' -r tsconfig-paths/register server.ts",
+    "tsc": "tsc --noEmit",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css,json,html}'"
   },
   "keywords": [],
