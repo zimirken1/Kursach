@@ -1,10 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+import { ErrorRequestHandler, Request, Response } from 'express';
 import { ApiError } from '../exceptions/api-error';
 import { Status } from '../exceptions/api-error';
 
-export const errorMiddleware = (error: Error, req: Request, res: Response, next: NextFunction) => {
+export const errorMiddleware: ErrorRequestHandler = (error: Error, req: Request, res: Response) => {
   if (error instanceof ApiError) {
-    return res.status(error.status).json({
+    res.status(error.status).json({
       status: error.status,
       message: error.message,
       errors: error.errors,
@@ -13,7 +13,7 @@ export const errorMiddleware = (error: Error, req: Request, res: Response, next:
 
   console.log(error);
 
-  return res.status(Status.INTERNAL_SERVER_ERROR).json({
+  res.status(Status.INTERNAL_SERVER_ERROR).json({
     status: Status.INTERNAL_SERVER_ERROR,
     message: 'Внутренняя ошибка сервера',
   });
