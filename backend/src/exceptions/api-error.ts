@@ -1,4 +1,4 @@
-import { ValidationError } from 'express-validator'
+import { ValidationError } from 'express-validator';
 
 export enum Status {
   BAD_REQUEST = 400,
@@ -9,35 +9,28 @@ export enum Status {
 }
 
 export class ApiError extends Error {
-  status: Status
-  errors?: Array<Error | ValidationError>
+  status: Status;
+  errors?: Array<Error | ValidationError>;
 
-  constructor(
-    status: Status,
-    message?: string,
-    errors?: Array<Error | ValidationError>
-  ) {
-    super(message)
-    this.status = status
-    this.errors = errors
+  constructor(status: Status, message?: string, errors?: Array<Error | ValidationError>) {
+    super(message);
+    this.status = status;
+    this.errors = errors;
   }
 
-  static BadRequest(
-    message: string,
-    errors: Array<Error | ValidationError> = []
-  ) {
-    return new ApiError(Status.BAD_REQUEST, message, errors)
+  static BadRequest(message: string, errors: Array<Error | ValidationError> = []) {
+    return new ApiError(Status.BAD_REQUEST, message, errors);
   }
 
   static Unauthorized() {
-    return new ApiError(Status.UNAUTHORIZED, 'Пользователь не авторизован')
+    return new ApiError(Status.UNAUTHORIZED, 'Пользователь не авторизован');
   }
 
   static Forbidden(message: string) {
-    return new ApiError(Status.FORBIDDEN, message)
+    return new ApiError(Status.FORBIDDEN, message);
   }
 
   static NotFound(message: string) {
-    return new ApiError(Status.NOT_FOUND, message)
+    return new ApiError(Status.NOT_FOUND, message);
   }
 }

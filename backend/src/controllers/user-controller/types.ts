@@ -1,12 +1,12 @@
-import UserDto from 'src/dto/user-dto'
+import UserDto from 'src/dto/user-dto';
 
 export type UserUpdateModel = {
-  user: UserDto
-  accessToken: string
-  refreshToken: string
-}
+  user: UserDto;
+  accessToken: string;
+  refreshToken: string;
+};
 
 export type UserLoginModel = {
-  email: string
-  password: string
-}
+  email: string;
+  password: string;
+};
