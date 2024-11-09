@@ -1,44 +1,32 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { authState } = useAuth();
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const segments = useSegments();
+  const router = useRouter();
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    const inAuthGroup = segments[0] === '(tabs)';
+    if (!authState?.authenticated && inAuthGroup) {
+      router.replace('/');
+    } else if (authState?.authenticated) {
+      router.replace('/(tabs)');
     }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+  }, [authState]);
 
   return (
     <AuthProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          {authState?.authenticated ? (
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-          ) : (
-            <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-          )}
-          <Stack.Screen name='+not-found' />
-        </Stack>
-      </ThemeProvider>
+      <Stack>
+        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        <Stack.Screen name='index' options={{ headerShown: false }} />
+      </Stack>
     </AuthProvider>
   );
 }
