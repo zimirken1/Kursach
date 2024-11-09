@@ -1,4 +1,4 @@
-import { Api } from '..';
+import axios, { AxiosResponse } from 'axios';
 import { FormDataType } from '@/features/Login/schema';
 
 type PostLoginResponse = {
@@ -12,6 +12,15 @@ type PostLoginResponse = {
 
 export const LoginApi = {
   async postLogin(body: FormDataType): Promise<PostLoginResponse> {
-    return await Api.post<FormDataType, PostLoginResponse>('/login', body);
+    const { data } = await axios.post<PostLoginResponse, AxiosResponse<PostLoginResponse>, FormDataType>(
+      `${process.env.EXPO_PUBLIC_API_URL}/login`,
+      body
+    );
+
+    return data;
+  },
+
+  async postLogout(): Promise<PostLoginResponse> {
+    return await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/logout`);
   },
 };

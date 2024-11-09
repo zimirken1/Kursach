@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { TextInput, Text, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator, StyleSheet } from 'react-native';
+import { TextInput, Text, TouchableOpacity, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -7,8 +7,11 @@ import { useMutation } from '@tanstack/react-query';
 import { schema, FormDataType } from './schema';
 import { LoginApi } from '@/api/queries/login';
 import { router } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
 
-export const LoginPage: FunctionComponent = () => {
+export const LoginScreen: FunctionComponent = () => {
+  const { onLogin } = useAuth();
+
   const {
     control,
     handleSubmit,
@@ -19,17 +22,18 @@ export const LoginPage: FunctionComponent = () => {
 
   const mutation = useMutation({
     mutationFn: LoginApi.postLogin,
-    onSuccess: () => {
-      console.log('Успешный вход');
+    onSuccess: data => {
+      if (data.accessToken) {
+        onLogin?.(data.accessToken).then(() => router.replace('/(tabs)'));
+      }
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       console.error('Ошибка входа', error.message);
     },
   });
 
   const handleLogin: SubmitHandler<FormDataType> = formData => {
     mutation.mutate(formData);
-    router.replace('/(tabs)');
   };
 
   return (
@@ -74,7 +78,7 @@ export const LoginPage: FunctionComponent = () => {
         style={[styles.button, isValid && styles.activeButton]}
         onPress={handleSubmit(handleLogin)}
       >
-        <Text style={styles.buttonText}>{mutation.isPending ? <ActivityIndicator /> : 'Войти'}</Text>
+        <Text style={styles.buttonText}>Войти</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );
