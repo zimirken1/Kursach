@@ -10,7 +10,7 @@ type AuthProps = {
 };
 
 const TOKEN = 'access-token';
-const API_URL = process.env.API_URL || '';
+const API_URL = process.env.EXPO_PUBLIC_API_URL || '';
 
 const AuthContext = createContext<AuthProps>({});
 
