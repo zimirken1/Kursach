@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useLayoutEffect, useState } from 'react';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
@@ -13,7 +13,7 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
-const TOKEN = 'access-token';
+export const TOKEN = 'access-token';
 const API_URL = process.env.EXPO_PUBLIC_API_URL || '';
 
 const AuthContext = createContext<AuthProps>({});
@@ -25,7 +25,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuth, setIsAuth] = useState<AuthProps['isAuth']>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(TOKEN);
 
@@ -56,9 +56,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = async (): Promise<void> => {
-    setIsAuth(false);
     await SecureStore.deleteItemAsync(TOKEN);
     axios.defaults.headers.common['Authorization'] = '';
+    setIsAuth(false);
   };
 
   const value: AuthProps = {
