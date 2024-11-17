@@ -5,7 +5,6 @@ import { Api } from '@/api/Api';
 
 type AuthProps = {
   isAuth?: boolean | null;
-  onRegister?: (email: string, password: string) => Promise<void>;
   onLogin?: (accessToken: string) => Promise<void>;
   onLogout?: () => Promise<void>;
 };
@@ -15,7 +14,6 @@ type AuthProviderProps = {
 };
 
 export const TOKEN = 'access-token';
-const API_URL = process.env.EXPO_PUBLIC_API_URL || '';
 
 const AuthContext = createContext<AuthProps>({});
 
@@ -38,14 +36,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     loadToken();
   }, []);
 
-  const register = async (email: string, password: string): Promise<void> => {
-    try {
-      return await Api.post(`${API_URL}/registration`, { email, password });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const login = async (accessToken: string): Promise<void> => {
     try {
       Api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -63,7 +53,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const value: AuthProps = {
-    onRegister: register,
     onLogin: login,
     onLogout: logout,
     isAuth,

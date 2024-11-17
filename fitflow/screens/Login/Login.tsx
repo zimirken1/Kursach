@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import React, { FunctionComponent } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { AuthApi } from '@/api/Api/authApi/authApi';
 import { useAuth } from '@/context/AuthContext';
@@ -13,7 +13,8 @@ import { Spacings } from '@/styles/spacings';
 
 import { FormDataType, schema } from './schema';
 
-export const LoginScreen: FunctionComponent = () => {
+export const AuthScreen: FC = () => {
+  const [isLoginMode, setIsLoginMode] = useState(true);
   const { onLogin } = useAuth();
 
   const {
@@ -25,24 +26,24 @@ export const LoginScreen: FunctionComponent = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: AuthApi.postLogin,
+    mutationFn: isLoginMode ? AuthApi.postLogin : AuthApi.postRegister,
     onSuccess: data => {
       if (data.accessToken) {
         onLogin?.(data.accessToken).then(() => router.replace('/(tabs)'));
       }
     },
     onError: (error: Error) => {
-      console.error('Ошибка входа', error.message);
+      console.error(isLoginMode ? 'Ошибка входа' : 'Ошибка регистрации', error.message);
     },
   });
 
-  const handleLogin: SubmitHandler<FormDataType> = formData => {
+  const handleAuth: SubmitHandler<FormDataType> = useCallback(formData => {
     mutation.mutate(formData);
-  };
+  }, []);
 
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <Text style={styles.title}>Вход</Text>
+      <Text style={styles.title}>{isLoginMode ? 'Вход' : 'Регистрация'}</Text>
 
       <Controller
         control={control}
@@ -56,6 +57,7 @@ export const LoginScreen: FunctionComponent = () => {
             value={value}
             keyboardType='email-address'
             autoCapitalize='none'
+            placeholderTextColor={Color.Neutral.Gray_2}
           />
         )}
       />
@@ -72,6 +74,7 @@ export const LoginScreen: FunctionComponent = () => {
             onChangeText={onChange}
             value={value}
             secureTextEntry
+            placeholderTextColor={Color.Neutral.Gray_2}
           />
         )}
       />
@@ -80,10 +83,17 @@ export const LoginScreen: FunctionComponent = () => {
       <TouchableOpacity
         disabled={!isValid}
         style={[styles.button, isValid && styles.activeButton]}
-        onPress={handleSubmit(handleLogin)}
+        onPress={handleSubmit(handleAuth)}
       >
-        <Text style={styles.buttonText}>Войти</Text>
+        <Text style={styles.buttonText}>{isLoginMode ? 'Войти' : 'Зарегистрироваться'}</Text>
       </TouchableOpacity>
+
+      <View style={styles.switchContainer}>
+        <Text style={styles.switchText}>{isLoginMode ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}</Text>
+        <TouchableOpacity onPress={() => setIsLoginMode(!isLoginMode)}>
+          <Text style={styles.switchButton}>{isLoginMode ? 'Зарегистрироваться' : 'Войти'}</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   );
 };
@@ -91,22 +101,25 @@ export const LoginScreen: FunctionComponent = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Color.Neutral.Gray_3,
+    backgroundColor: Color.Neutral.Gray_12,
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
     fontSize: Fonts.FontSize.XXLarge,
     marginBottom: Spacings.Margin.XXLarge,
+    color: Color.Neutral.Gray_2,
   },
   input: {
     width: '80%',
     height: Spacings.Size.XXLarge,
-    borderColor: Color.Neutral.Gray_6,
+    borderColor: Color.Neutral.Gray_5,
     borderWidth: 1,
     paddingHorizontal: Spacings.Padding.Medium,
     borderRadius: 8,
     fontSize: Fonts.FontSize.Normal,
+    backgroundColor: Color.Neutral.Gray_10,
+    color: Color.Neutral.Gray_2,
   },
   errorText: {
     width: '80%',
@@ -116,18 +129,33 @@ const styles = StyleSheet.create({
     marginVertical: Spacings.Padding.Small,
   },
   button: {
-    backgroundColor: Color.Primary.Color_5,
+    backgroundColor: Color.Primary.Color_6,
     width: '80%',
     paddingVertical: Spacings.Padding.Medium,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: Spacings.Margin.Small,
+    color: Color.Neutral.Gray_1,
   },
   activeButton: {
-    backgroundColor: Color.Primary.Color_6,
+    backgroundColor: Color.Primary.Color_7,
   },
   buttonText: {
     color: Color.Neutral.Gray_1,
     fontSize: Fonts.FontSize.Medium,
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    marginTop: Spacings.Margin.Medium,
+  },
+  switchText: {
+    color: Color.Neutral.Gray_7,
+    fontSize: Fonts.FontSize.Small,
+    marginRight: Spacings.Padding.Small,
+  },
+  switchButton: {
+    color: Color.Primary.Color_6,
+    fontSize: Fonts.FontSize.Small,
+    fontWeight: 'bold',
   },
 });

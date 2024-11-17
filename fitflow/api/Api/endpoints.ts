@@ -3,6 +3,7 @@ export class Endpoints {
 
   public static auth = {
     login: Endpoints.build('/login'),
+    registration: Endpoints.build('/registration'),
     logout: Endpoints.build('/logout'),
     refresh: Endpoints.build('/refresh'),
   };

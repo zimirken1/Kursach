@@ -15,6 +15,14 @@ export const AuthApi = {
     return data;
   },
 
+  async postRegister(body: FormDataType): Promise<AuthResponse> {
+    const { data } = await Api.post<AuthResponse, AxiosResponse<AuthResponse>, FormDataType>(
+      Endpoints.auth.registration,
+      body
+    );
+    return data;
+  },
+
   async postLogout(): Promise<void> {
     const response = await Api.post(Endpoints.auth.logout);
     return response.data;

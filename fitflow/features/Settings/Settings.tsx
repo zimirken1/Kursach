@@ -4,6 +4,8 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { AuthApi } from '@/api/Api/authApi/authApi';
 import { useAuth } from '@/context/AuthContext';
+import { Color } from '@/styles/colors';
+import { Spacings } from '@/styles/spacings';
 
 const Settings = () => {
   const { onLogout } = useAuth();
@@ -21,7 +23,7 @@ const Settings = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Settings</Text>
+      <Text style={styles.text}>Settings</Text>
       <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
         <Text style={styles.buttonText}>Выйти</Text>
       </TouchableOpacity>
@@ -36,17 +38,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   logoutButton: {
-    backgroundColor: '#1890ff',
+    backgroundColor: Color.Primary.Color_7,
     width: '80%',
-    paddingVertical: 16,
+    paddingVertical: Spacings.Padding.Medium,
     borderRadius: 8,
-    marginTop: 20,
+    marginTop: Spacings.Margin.Large,
     display: 'flex',
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: Color.Neutral.Gray_1,
     fontSize: 18,
+  },
+  text: {
+    color: Color.Neutral.Gray_2,
   },
 });
 

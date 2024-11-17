@@ -1,5 +1,6 @@
 import { Stack, useRouter, useSegments } from 'expo-router';
 import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 
 import { useAuth } from '@/context/AuthContext';
 
@@ -27,11 +28,16 @@ export const StackWrapper = () => {
   useEffect(() => {
     const inAuthGroup = segments[0] === '(tabs)';
     if (!isAuth && inAuthGroup) {
-      router.replace('/(auth)/login');
+      router.replace('/(auth)/auth');
     } else if (isAuth && !inAuthGroup) {
       router.replace('/(tabs)');
     }
   }, [isAuth, segments]);
 
-  return <>{isAuth ? <AppScreen /> : <AuthStack />}</>;
+  return (
+    <>
+      <StatusBar barStyle={'light-content'} />
+      {isAuth ? <AppScreen /> : <AuthStack />}
+    </>
+  );
 };

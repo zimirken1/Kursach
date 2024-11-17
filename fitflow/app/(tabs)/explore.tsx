@@ -1,10 +1,18 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
+
+import { Color } from '@/styles/colors';
 
 export default function TabTwoScreen() {
   return (
     <SafeAreaView>
-      <Text>Explore</Text>
+      <Text style={styles.text}>Explore</Text>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    color: Color.Neutral.Gray_2,
+  },
+});
