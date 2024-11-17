@@ -8,11 +8,11 @@ import { Alert, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } 
 import { AuthApi } from '@/api/Api/authApi/authApi';
 import { ApiError } from '@/api/types';
 import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/shared/Button/Button';
 import { Color } from '@/styles/colors';
 
 import { styles } from './Login.styles';
 import { FormDataType, schema } from './schema';
-import { Button } from '@/shared/Button/Button';
 
 export const AuthScreen: FC = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
