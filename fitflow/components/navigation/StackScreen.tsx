@@ -1,6 +1,6 @@
 import { Stack, useRouter, useSegments } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { StatusBar } from 'react-native';
 
 import { useAuth } from '@/context/AuthContext';
 
@@ -36,7 +36,7 @@ export const StackWrapper = () => {
 
   return (
     <>
-      <StatusBar barStyle={'light-content'} />
+      <StatusBar style={'light'} />
       {isAuth ? <AppScreen /> : <AuthStack />}
     </>
   );

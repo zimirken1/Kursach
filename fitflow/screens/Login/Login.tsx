@@ -3,9 +3,10 @@ import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { FC, useCallback, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { AuthApi } from '@/api/Api/authApi/authApi';
+import { ApiError } from '@/api/types';
 import { useAuth } from '@/context/AuthContext';
 import { Color } from '@/styles/colors';
 import { Fonts } from '@/styles/fonts';
@@ -32,8 +33,8 @@ export const AuthScreen: FC = () => {
         onLogin?.(data.accessToken).then(() => router.replace('/(tabs)'));
       }
     },
-    onError: (error: Error) => {
-      console.error(isLoginMode ? 'Ошибка входа' : 'Ошибка регистрации', error.message);
+    onError: (error: ApiError) => {
+      Alert.alert('Ошибка', error.response?.data.message, [{ text: 'OK' }]);
     },
   });
 
@@ -107,18 +108,18 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: Fonts.FontSize.XXLarge,
-    marginBottom: Spacings.Margin.XXLarge,
+    marginBottom: Spacings.Margin.Large,
     color: Color.Neutral.Gray_2,
   },
   input: {
     width: '80%',
     height: Spacings.Size.XXLarge,
-    borderColor: Color.Neutral.Gray_5,
+    borderColor: Color.Neutral.Gray_7,
     borderWidth: 1,
     paddingHorizontal: Spacings.Padding.Medium,
     borderRadius: 8,
     fontSize: Fonts.FontSize.Normal,
-    backgroundColor: Color.Neutral.Gray_10,
+    backgroundColor: Color.Neutral.Gray_11,
     color: Color.Neutral.Gray_2,
   },
   errorText: {
