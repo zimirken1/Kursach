@@ -1,9 +1,25 @@
+import { Stack, useRouter, useSegments } from 'expo-router';
 import React, { useEffect } from 'react';
-import { useRouter, Stack, useSegments } from 'expo-router';
 
 import { useAuth } from '@/context/AuthContext';
 
-export const StackScreen = () => {
+export const AppScreen = () => {
+  return (
+    <Stack>
+      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+    </Stack>
+  );
+};
+
+export const AuthStack = () => {
+  return (
+    <Stack>
+      <Stack.Screen name='auth' options={{ headerShown: false }} />
+    </Stack>
+  );
+};
+
+export const StackWrapper = () => {
   const segments = useSegments();
   const router = useRouter();
   const { isAuth } = useAuth();
@@ -15,12 +31,7 @@ export const StackScreen = () => {
     } else if (isAuth && !inAuthGroup) {
       router.replace('/(tabs)');
     }
-  }, [isAuth]);
+  }, [isAuth, segments]);
 
-  return (
-    <Stack>
-      <Stack.Screen name='auth' options={{ headerShown: false }} />
-      <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-    </Stack>
-  );
+  return <>{isAuth ? <AppScreen /> : <AuthStack />}</>;
 };

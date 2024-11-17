@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Settings from '@/features/Settings/Settings';
 
 const ProfileScreen = () => {

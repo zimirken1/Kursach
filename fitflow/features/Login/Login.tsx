@@ -1,13 +1,14 @@
-import React, { FunctionComponent } from 'react';
-import { TextInput, Text, TouchableOpacity, KeyboardAvoidingView, StyleSheet } from 'react-native';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-
-import { schema, FormDataType } from './schema';
-import { LoginApi } from '@/api/queries/login';
 import { router } from 'expo-router';
+import React, { FunctionComponent } from 'react';
+import { Controller, SubmitHandler,useForm } from 'react-hook-form';
+import { KeyboardAvoidingView, StyleSheet,Text, TextInput, TouchableOpacity } from 'react-native';
+
+import { LoginApi } from '@/api/queries/login';
 import { useAuth } from '@/context/AuthContext';
+
+import { FormDataType,schema } from './schema';
 
 export const LoginScreen: FunctionComponent = () => {
   const { onLogin } = useAuth();

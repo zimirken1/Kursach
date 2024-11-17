@@ -1,6 +1,7 @@
-import React, { createContext, ReactNode, useContext, useLayoutEffect, useState } from 'react';
-import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import React, { createContext, ReactNode, useContext, useLayoutEffect, useState } from 'react';
+
+import { Api } from '@/api/queries';
 
 type AuthProps = {
   isAuth?: boolean | null;
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const token = await SecureStore.getItemAsync(TOKEN);
 
       if (token) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        Api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         setIsAuth(true);
       }
     };
@@ -39,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const register = async (email: string, password: string): Promise<void> => {
     try {
-      return await axios.post(`${API_URL}/registration`, { email, password });
+      return await Api.post(`${API_URL}/registration`, { email, password });
     } catch (e) {
       console.log(e);
     }
@@ -47,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (accessToken: string): Promise<void> => {
     try {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+      Api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
       await SecureStore.setItemAsync(TOKEN, accessToken);
       setIsAuth(true);
     } catch (e) {
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async (): Promise<void> => {
     await SecureStore.deleteItemAsync(TOKEN);
-    axios.defaults.headers.common['Authorization'] = '';
+    Api.defaults.headers.common['Authorization'] = '';
     setIsAuth(false);
   };
 
