@@ -14,7 +14,7 @@ export const AppScreen = () => {
 export const AuthStack = () => {
   return (
     <Stack>
-      <Stack.Screen name='auth' options={{ headerShown: false }} />
+      <Stack.Screen name='(auth)' options={{ headerShown: false }} />
     </Stack>
   );
 };
@@ -27,7 +27,7 @@ export const StackWrapper = () => {
   useEffect(() => {
     const inAuthGroup = segments[0] === '(tabs)';
     if (!isAuth && inAuthGroup) {
-      router.replace('/auth');
+      router.replace('/(auth)/login');
     } else if (isAuth && !inAuthGroup) {
       router.replace('/(tabs)');
     }

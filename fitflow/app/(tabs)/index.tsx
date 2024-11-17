@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 
-import { LoginApi } from '@/api/queries/login';
+import { UserApi } from '@/api/Api/userApi/userApi';
 
 export default function HomeScreen() {
-  const { data } = useQuery({ queryKey: ['Users'], queryFn: LoginApi.getUsers });
+  const { data } = useQuery({ queryKey: ['Users'], queryFn: UserApi.getUsers });
 
   return (
     <SafeAreaView>

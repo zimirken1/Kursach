@@ -2,13 +2,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { FunctionComponent } from 'react';
-import { Controller, SubmitHandler,useForm } from 'react-hook-form';
-import { KeyboardAvoidingView, StyleSheet,Text, TextInput, TouchableOpacity } from 'react-native';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import { LoginApi } from '@/api/queries/login';
+import { AuthApi } from '@/api/Api/authApi/authApi';
 import { useAuth } from '@/context/AuthContext';
+import { Color } from '@/styles/colors';
+import { Fonts } from '@/styles/fonts';
+import { Spacings } from '@/styles/spacings';
 
-import { FormDataType,schema } from './schema';
+import { FormDataType, schema } from './schema';
 
 export const LoginScreen: FunctionComponent = () => {
   const { onLogin } = useAuth();
@@ -22,7 +25,7 @@ export const LoginScreen: FunctionComponent = () => {
   });
 
   const mutation = useMutation({
-    mutationFn: LoginApi.postLogin,
+    mutationFn: AuthApi.postLogin,
     onSuccess: data => {
       if (data.accessToken) {
         onLogin?.(data.accessToken).then(() => router.replace('/(tabs)'));
@@ -56,7 +59,7 @@ export const LoginScreen: FunctionComponent = () => {
           />
         )}
       />
-      {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+      <Text style={styles.errorText}>{errors.email?.message}</Text>
 
       <Controller
         control={control}
@@ -72,7 +75,7 @@ export const LoginScreen: FunctionComponent = () => {
           />
         )}
       />
-      {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
+      <Text style={styles.errorText}>{errors.password?.message}</Text>
 
       <TouchableOpacity
         disabled={!isValid}
@@ -85,46 +88,46 @@ export const LoginScreen: FunctionComponent = () => {
   );
 };
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Color.Neutral.Gray_3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
-    fontSize: 32,
-    marginBottom: 50,
+    fontSize: Fonts.FontSize.XXLarge,
+    marginBottom: Spacings.Margin.XXLarge,
   },
   input: {
     width: '80%',
-    height: 50,
-    borderColor: '#ccc',
+    height: Spacings.Size.XXLarge,
+    borderColor: Color.Neutral.Gray_6,
     borderWidth: 1,
-    marginBottom: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: Spacings.Padding.Medium,
     borderRadius: 8,
-    fontSize: 16,
+    fontSize: Fonts.FontSize.Normal,
   },
   errorText: {
     width: '80%',
-    color: 'red',
-    marginBottom: 10,
+    color: Color.Danger.Color_6,
     textAlign: 'left',
+    height: Spacings.Size.Medium,
+    marginVertical: Spacings.Padding.Small,
   },
   button: {
-    backgroundColor: '#40a9ff',
+    backgroundColor: Color.Primary.Color_5,
     width: '80%',
-    paddingVertical: 16,
+    paddingVertical: Spacings.Padding.Medium,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: Spacings.Margin.Small,
   },
   activeButton: {
-    backgroundColor: '#1890ff',
+    backgroundColor: Color.Primary.Color_6,
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 18,
+    color: Color.Neutral.Gray_1,
+    fontSize: Fonts.FontSize.Medium,
   },
 });

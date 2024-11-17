@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import React, { createContext, ReactNode, useContext, useLayoutEffect, useState } from 'react';
 
-import { Api } from '@/api/queries';
+import { Api } from '@/api/Api';
 
 type AuthProps = {
   isAuth?: boolean | null;

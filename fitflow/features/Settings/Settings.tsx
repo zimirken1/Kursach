@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import React, { useCallback } from 'react';
-import { SafeAreaView, StyleSheet,Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { LoginApi } from '@/api/queries/login';
+import { AuthApi } from '@/api/Api/authApi/authApi';
 import { useAuth } from '@/context/AuthContext';
 
 const Settings = () => {
   const { onLogout } = useAuth();
 
   const mutation = useMutation({
-    mutationFn: LoginApi.postLogout,
+    mutationFn: AuthApi.postLogout,
     onSuccess: () => {
       onLogout?.();
     },
