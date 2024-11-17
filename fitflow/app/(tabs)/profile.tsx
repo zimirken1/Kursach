@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Settings from '@/features/Settings/Settings';
+import Settings from '@/screens/Settings/Settings';
 
 const ProfileScreen = () => {
   return <Settings />;

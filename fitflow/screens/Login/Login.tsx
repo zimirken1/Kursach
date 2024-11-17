@@ -3,16 +3,16 @@ import { useMutation } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { FC, useCallback, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Alert, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { AuthApi } from '@/api/Api/authApi/authApi';
 import { ApiError } from '@/api/types';
 import { useAuth } from '@/context/AuthContext';
 import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
-import { Spacings } from '@/styles/spacings';
 
+import { styles } from './Login.styles';
 import { FormDataType, schema } from './schema';
+import { Button } from '@/shared/Button/Button';
 
 export const AuthScreen: FC = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -81,13 +81,12 @@ export const AuthScreen: FC = () => {
       />
       <Text style={styles.errorText}>{errors.password?.message}</Text>
 
-      <TouchableOpacity
-        disabled={!isValid}
-        style={[styles.button, isValid && styles.activeButton]}
+      <Button
+        title={isLoginMode ? 'Войти' : 'Зарегистрироваться'}
         onPress={handleSubmit(handleAuth)}
-      >
-        <Text style={styles.buttonText}>{isLoginMode ? 'Войти' : 'Зарегистрироваться'}</Text>
-      </TouchableOpacity>
+        disabled={!isValid}
+        variant='primary'
+      />
 
       <View style={styles.switchContainer}>
         <Text style={styles.switchText}>{isLoginMode ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}</Text>
@@ -98,65 +97,3 @@ export const AuthScreen: FC = () => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Color.Neutral.Gray_12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: Fonts.FontSize.XXLarge,
-    marginBottom: Spacings.Margin.Large,
-    color: Color.Neutral.Gray_2,
-  },
-  input: {
-    width: '80%',
-    height: Spacings.Size.XXLarge,
-    borderColor: Color.Neutral.Gray_7,
-    borderWidth: 1,
-    paddingHorizontal: Spacings.Padding.Medium,
-    borderRadius: 8,
-    fontSize: Fonts.FontSize.Normal,
-    backgroundColor: Color.Neutral.Gray_11,
-    color: Color.Neutral.Gray_2,
-  },
-  errorText: {
-    width: '80%',
-    color: Color.Danger.Color_6,
-    textAlign: 'left',
-    height: Spacings.Size.Medium,
-    marginVertical: Spacings.Padding.Small,
-  },
-  button: {
-    backgroundColor: Color.Primary.Color_6,
-    width: '80%',
-    paddingVertical: Spacings.Padding.Medium,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: Spacings.Margin.Small,
-    color: Color.Neutral.Gray_1,
-  },
-  activeButton: {
-    backgroundColor: Color.Primary.Color_7,
-  },
-  buttonText: {
-    color: Color.Neutral.Gray_1,
-    fontSize: Fonts.FontSize.Medium,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    marginTop: Spacings.Margin.Medium,
-  },
-  switchText: {
-    color: Color.Neutral.Gray_7,
-    fontSize: Fonts.FontSize.Small,
-    marginRight: Spacings.Padding.Small,
-  },
-  switchButton: {
-    color: Color.Primary.Color_6,
-    fontSize: Fonts.FontSize.Small,
-    fontWeight: 'bold',
-  },
-});
