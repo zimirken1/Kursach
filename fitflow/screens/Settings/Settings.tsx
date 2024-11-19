@@ -6,6 +6,7 @@ import { AuthApi } from '@/api/Api/authApi/authApi';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/shared/Button/Button';
 import { Color } from '@/styles/colors';
+import { Fonts } from '@/styles/fonts';
 import { Spacings } from '@/styles/spacings';
 
 const Settings = () => {
@@ -24,7 +25,7 @@ const Settings = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>Settings</Text>
+      <Text style={styles.title}>Профиль</Text>
       <Button title='Выйти' variant='primary' onPress={handleLogout} />
     </SafeAreaView>
   );
@@ -36,9 +37,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
   },
-  text: {
+  title: {
     color: Color.Neutral.Gray_2,
-    marginBottom: Spacings.Margin.XLarge,
+    alignSelf: 'center',
+    fontSize: Fonts.FontSize.Large,
+    marginBottom: Spacings.Margin.Normal,
   },
 });
 

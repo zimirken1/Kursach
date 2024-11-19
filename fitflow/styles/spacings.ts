@@ -32,6 +32,7 @@ const Size = {
   Large: 24,
   XLarge: 32,
   XXLarge: 48,
+  XXXLarge: 96,
 };
 
 export const Spacings = {
