@@ -1,5 +1,6 @@
+import { router } from 'expo-router';
 import React from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Color } from '@/styles/colors';
 import { Fonts } from '@/styles/fonts';
@@ -7,9 +8,8 @@ import { Spacings } from '@/styles/spacings';
 
 export default function TrainingsScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Тренировки</Text>
-      <TouchableOpacity onPress={() => {}} style={styles.trainingCard}>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => router.push('/trainings/1')} style={styles.trainingCard}>
         <View style={styles.trainingCardTitleContainer}>
           <Text style={styles.trainingCardTitle}>Full Body</Text>
           <Text style={styles.trainingCardSubtitle}>5 упражнений</Text>
@@ -19,7 +19,7 @@ export default function TrainingsScreen() {
           source={{ uri: 'https://miro.medium.com/v2/resize:fit:1400/0*6xo6m03tjxB-rNG2' }}
         />
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -27,12 +27,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  title: {
-    color: Color.Neutral.Gray_2,
-    alignSelf: 'center',
-    fontSize: Fonts.FontSize.Large,
-    marginBottom: Spacings.Margin.Large,
+    backgroundColor: Color.Neutral.Gray_12,
+    paddingVertical: Spacings.Padding.Normal,
   },
   trainingCard: {
     display: 'flex',

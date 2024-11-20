@@ -86,6 +86,7 @@ export const AuthScreen: FC = () => {
         onPress={handleSubmit(handleAuth)}
         disabled={!isValid}
         variant='primary'
+        style={{ width: '80%' }}
       />
 
       <View style={styles.switchContainer}>

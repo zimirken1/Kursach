@@ -8,15 +8,77 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  email       String   @unique
-  password    String
-  token       Token?   
+  id                String            @id @default(cuid())
+  email             String            @unique
+  password          String
+  token             Token?
+  trainingPlans     TrainingPlan[]
+  workouts          Workout[]
+  trainingHistories TrainingHistory[]
 }
 
 model Token {
-  id            String  @id @default(cuid()) 
-  refreshToken  String @unique
-  userId        String  @unique 
-  user          User    @relation(fields: [userId], references: [id])
+  id           String @id @default(cuid())
+  refreshToken String @unique
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+model TrainingPlan {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  image       String?
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  workouts    Workout[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Workout {
+  id                String            @id @default(cuid())
+  title             String
+  userId            String?
+  user              User?             @relation(fields: [userId], references: [id])
+  planId            String?
+  trainingPlan      TrainingPlan?     @relation(fields: [planId], references: [id])
+  exercises         Exercise[]
+  trainingHistories TrainingHistory[]
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model Exercise {
+  id               String            @id @default(cuid())
+  title            String
+  setsCount        Int
+  repsCount        String
+  defaultWeight    Float?
+  image            String?
+  workoutId        String
+  workout          Workout           @relation(fields: [workoutId], references: [id])
+  exerciseSessions ExerciseSession[]
+}
+
+model TrainingHistory {
+  id               String            @id @default(cuid())
+  userId           String
+  user             User              @relation(fields: [userId], references: [id])
+  workoutId        String
+  workout          Workout           @relation(fields: [workoutId], references: [id])
+  startedAt        DateTime
+  finishedAt       DateTime?
+  exerciseSessions ExerciseSession[]
+}
+
+model ExerciseSession {
+  id              String          @id @default(cuid())
+  historyId       String
+  trainingHistory TrainingHistory @relation(fields: [historyId], references: [id])
+  exerciseId      String
+  exercise        Exercise        @relation(fields: [exerciseId], references: [id])
+  setsCount       Int
+  repsPerSet      Json
+  weights         Json
 }

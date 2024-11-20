@@ -1,8 +1,8 @@
 import { Tabs } from 'expo-router';
+import { Dumbbell, House, Settings } from 'lucide-react-native';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Color } from '@/styles/colors';
 
 export default function TabLayout() {
@@ -20,25 +20,21 @@ export default function TabLayout() {
           tabBarActiveTintColor: Color.Primary.Color_7,
           tabBarInactiveTintColor: Color.Neutral.Gray_6,
           title: 'Главная',
-          tabBarIcon: ({ color, focused }) => <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />,
+          tabBarIcon: ({ color }) => <House color={color} />,
         }}
       />
       <Tabs.Screen
         name='trainings'
         options={{
           title: 'Тренировки',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'heart-circle' : 'heart-circle-outline'} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Dumbbell color={color} />,
         }}
       />
       <Tabs.Screen
         name='profile'
         options={{
           title: 'Профиль',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'settings' : 'settings-outline'} color={color} />
-          ),
+          tabBarIcon: ({ color }) => <Settings color={color} />,
         }}
       />
     </Tabs>
@@ -48,5 +44,6 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Color.Neutral.Gray_12,
+    height: 90,
   },
 });
