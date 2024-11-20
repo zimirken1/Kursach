@@ -1,4 +1,4 @@
-import UserDto from 'src/dto/user-dto';
+import { UserDto } from 'src/dto/user-dto';
 
 export type UserUpdateModel = {
   user: UserDto;

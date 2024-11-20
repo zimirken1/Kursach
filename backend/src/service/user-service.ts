@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { prisma } from '../../server';
 import { tokenService } from './token-service';
 import { ApiError } from '../exceptions/api-error';
-import UserDto from 'src/dto/user-dto';
+import { UserDto } from 'src/dto/user-dto';
 
 class UserService {
   async registration(email: string, password: string) {

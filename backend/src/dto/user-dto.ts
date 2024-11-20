@@ -3,7 +3,7 @@ type UserModel = {
   id: string;
 };
 
-class UserDto {
+export class UserDto {
   email: string;
   id: string;
 
@@ -12,5 +12,3 @@ class UserDto {
     this.id = model.id;
   }
 }
-
-export default UserDto;

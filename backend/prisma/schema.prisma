@@ -39,9 +39,11 @@ model TrainingPlan {
 model Workout {
   id                String            @id @default(cuid())
   title             String
+  description       String
   userId            String?
   user              User?             @relation(fields: [userId], references: [id])
   planId            String?
+  image             String?
   trainingPlan      TrainingPlan?     @relation(fields: [planId], references: [id])
   exercises         Exercise[]
   trainingHistories TrainingHistory[]

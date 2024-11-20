@@ -1,7 +1,7 @@
 import Jwt from 'jsonwebtoken';
 
 import { prisma } from '../../server';
-import UserDto from '../dto/user-dto';
+import { UserDto } from '../dto/user-dto';
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || '';
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || '';

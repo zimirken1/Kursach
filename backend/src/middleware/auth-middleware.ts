@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { ApiError } from '../exceptions/api-error';
 import { tokenService } from 'src/service/token-service';
-import UserDto from 'src/dto/user-dto';
+import { UserDto } from 'src/dto/user-dto';
 
 interface AuthMiddlewareRequest extends Request {
   user?: UserDto;
