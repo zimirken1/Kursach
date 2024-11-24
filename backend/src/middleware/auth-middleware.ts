@@ -4,9 +4,9 @@ import { ApiError } from '../exceptions/api-error';
 import { tokenService } from 'src/service/token-service';
 import { UserDto } from 'src/dto/user-dto';
 
-interface AuthMiddlewareRequest extends Request {
+type AuthMiddlewareRequest = Request & {
   user?: UserDto;
-}
+};
 
 export const authMiddleware = (req: AuthMiddlewareRequest, res: Response, next: NextFunction) => {
   try {

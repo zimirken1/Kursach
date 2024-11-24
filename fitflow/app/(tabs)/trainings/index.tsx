@@ -1,24 +1,65 @@
+import { useQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
+import { WorkoutFilter, workoutQueryKeys } from '@/api/Api/workoutApi/types';
+import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi';
+import { Button } from '@/shared/Button/Button';
+import { SwitchGroup } from '@/shared/SwitchGroup/SwitchGroup';
+import { WorkoutPreviewCard } from '@/shared/WorkoutPreviewCard/WorkoutPreviewCard';
 import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
 import { Spacings } from '@/styles/spacings';
 
+enum Tabs {
+  MyWorkouts = 'myWorkouts',
+  AllWorkouts = 'allWorkouts',
+}
+
 export default function TrainingsScreen() {
+  const [activeTab, setActiveTab] = useState<string>(Tabs.MyWorkouts);
+
+  const { data } = useQuery({
+    queryKey: [activeTab === Tabs.MyWorkouts ? workoutQueryKeys.MY_WORKOUTS : workoutQueryKeys.WORKOUTS],
+    queryFn: () =>
+      WorkoutApi.getWorkouts({
+        filter: activeTab === Tabs.MyWorkouts ? WorkoutFilter.MY_WORKOUTS : WorkoutFilter.ALL_WORKOUTS,
+      }),
+  });
+
+  const tabs = useMemo(
+    () => [
+      { key: Tabs.MyWorkouts, label: 'Мои тренировки' },
+      { key: Tabs.AllWorkouts, label: 'Все тренировки' },
+    ],
+    []
+  );
+
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => router.push('/trainings/1')} style={styles.trainingCard}>
-        <View style={styles.trainingCardTitleContainer}>
-          <Text style={styles.trainingCardTitle}>Full Body</Text>
-          <Text style={styles.trainingCardSubtitle}>5 упражнений</Text>
-        </View>
-        <Image
-          style={styles.trainingCardImage}
-          source={{ uri: 'https://miro.medium.com/v2/resize:fit:1400/0*6xo6m03tjxB-rNG2' }}
+      <SwitchGroup activeTab={activeTab} onTabChange={handleTabChange} tabs={tabs} />
+
+      {data?.map(workout => (
+        <WorkoutPreviewCard
+          key={workout.id}
+          id={workout.id}
+          title={workout.title}
+          exercisesCount={workout._count.exercises}
+          image={workout.image}
         />
-      </TouchableOpacity>
+      ))}
+
+      {activeTab === Tabs.MyWorkouts && (
+        <Button
+          style={styles.addButton}
+          onPress={() => router.push(`/trainings/create_workout`)}
+          title={'Добавить тренировку'}
+        />
+      )}
     </View>
   );
 }
@@ -29,36 +70,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Color.Neutral.Gray_12,
     paddingVertical: Spacings.Padding.Normal,
+    gap: Spacings.Gap.Normal,
   },
-  trainingCard: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: Color.Neutral.Gray_10,
-    borderRadius: 18,
+  addButton: {
+    marginTop: Spacings.Margin.Normal,
     width: '90%',
-    height: Spacings.Size.XXXLarge,
-  },
-  trainingCardTitleContainer: {
-    margin: Spacings.Margin.Large,
-    marginVertical: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: Spacings.Gap.Small,
-  },
-  trainingCardTitle: {
-    fontSize: Fonts.FontSize.XLarge,
-    color: Color.Neutral.Gray_2,
-    fontWeight: 'semibold',
-  },
-  trainingCardSubtitle: {
-    fontSize: Fonts.FontSize.Medium,
-    color: Color.Neutral.Gray_2,
-    fontWeight: 'light',
-  },
-  trainingCardImage: {
-    width: 150,
-    height: Spacings.Size.XXXLarge,
-    borderRadius: 18,
   },
 });

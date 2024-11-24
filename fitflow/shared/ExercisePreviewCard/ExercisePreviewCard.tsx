@@ -7,8 +7,9 @@ type ExercisePreviewCardProps = {
   title: string;
   setsCount: number;
   repsCount: string;
+  image?: string;
 };
-export const ExercisePreviewCard = ({ title, setsCount, repsCount }: ExercisePreviewCardProps) => {
+export const ExercisePreviewCard = ({ title, setsCount, repsCount, image }: ExercisePreviewCardProps) => {
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.textContainer}>
@@ -18,7 +19,7 @@ export const ExercisePreviewCard = ({ title, setsCount, repsCount }: ExercisePre
       <Image
         style={styles.image}
         source={{
-          uri: 'https://planetasport.ru/upload/medialibrary/29b/fq1nmtcthy3ocr58krkb62847il81z64/Pravilrnaya-tekhnika-zhima-lezha-2.jpg',
+          uri: image,
         }}
       />
     </TouchableOpacity>

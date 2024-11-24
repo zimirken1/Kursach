@@ -1,30 +1,41 @@
+import { useQuery } from '@tanstack/react-query';
+import { useGlobalSearchParams } from 'expo-router';
 import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { workoutQueryKeys } from '@/api/Api/workoutApi/types';
+import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi';
 import { Button } from '@/shared/Button/Button';
 import { ExercisePreviewCard } from '@/shared/ExercisePreviewCard/ExercisePreviewCard';
 import { Color } from '@/styles/colors';
 import { Fonts } from '@/styles/fonts';
 import { Spacings } from '@/styles/spacings';
 
-import { data } from './mock';
 export default function TrainingDetailsScreen() {
+  const { id } = useGlobalSearchParams();
+
+  const { data } = useQuery({
+    queryKey: [workoutQueryKeys.WORKOUT],
+    queryFn: () => WorkoutApi.getWorkout(id as string),
+  });
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.detailsContainer}>
-        <Image style={styles.image} source={{ uri: data.image }} />
+        <Image style={styles.image} source={{ uri: data?.image }} />
         <View style={styles.descriptionContainer}>
-          <Text style={styles.title}>{data.title}</Text>
-          <Text style={styles.subtitle}>{`${data.numberOfExercises} упражнений`}</Text>
-          <Text style={styles.description}>{data.description}</Text>
+          <Text style={styles.title}>{data?.title}</Text>
+          <Text style={styles.subtitle}>{`${data?._count.exercises} упражнений`}</Text>
+          <Text style={styles.description}>{data?.description}</Text>
         </View>
         <View style={styles.exercisesContainer}>
-          {data.exercises.map(exercise => (
+          {data?.exercises.map(exercise => (
             <ExercisePreviewCard
               key={exercise.id}
               title={exercise.title}
               setsCount={exercise.setsCount}
               repsCount={exercise.repsCount}
+              image={exercise.image}
             />
           ))}
         </View>

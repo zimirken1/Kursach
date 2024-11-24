@@ -16,8 +16,10 @@ router.post(
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/refresh', userController.refresh);
+
 router.get('/users', authMiddleware, userController.getUsers);
 
 router.get('/workouts/:id', authMiddleware, workoutController.getWorkout);
+router.delete('/workouts/:id', authMiddleware, workoutController.deleteWorkout);
 router.get('/workouts', authMiddleware, workoutController.getWorkouts);
 router.post('/workouts', authMiddleware, workoutController.createWorkout);
