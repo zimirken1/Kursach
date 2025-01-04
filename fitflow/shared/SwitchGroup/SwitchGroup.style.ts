@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     marginVertical: Spacings.Margin.Normal,
     height: Spacings.Size.XXLarge,
     borderRadius: 18,
-    width: '90%',
     backgroundColor: Color.Neutral.Gray_10,
   },
   tab: {

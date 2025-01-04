@@ -19,4 +19,9 @@ export const WorkoutApi = {
     const response = await Api.delete(Endpoints.workouts.deleteWorkout(id));
     return response.data;
   },
+
+  async createWorkout(body: FormData) {
+    const response = await Api.post(Endpoints.workouts.createWorkout, body);
+    return response.data;
+  },
 };

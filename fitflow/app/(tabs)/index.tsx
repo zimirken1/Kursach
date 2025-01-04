@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 import { UserApi } from '@/api/Api/userApi/userApi';
 import { Color } from '@/styles/colors';
@@ -12,14 +12,19 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView>
-      <Text style={styles.title}>Главная</Text>
-      {data?.map(user => (
-        <View key={user.id}>
-          <Text style={styles.text}>
-            {user.id} {user.email} {user.password}
-          </Text>
-        </View>
-      ))}
+      <View>
+        <Text style={styles.title}>Главная</Text>
+        <FlatList
+          data={data}
+          renderItem={data => (
+            <View>
+              <Text style={styles.text}>{data.item.email}</Text>
+              <Text style={styles.text}>{data.item.id}</Text>
+              <Text style={styles.text}>{data.item.password}</Text>
+            </View>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 }

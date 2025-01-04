@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 import { WorkoutFilter, workoutQueryKeys } from '@/api/Api/workoutApi/types';
 import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi';
@@ -42,24 +42,27 @@ export default function TrainingsScreen() {
   return (
     <View style={styles.container}>
       <SwitchGroup activeTab={activeTab} onTabChange={handleTabChange} tabs={tabs} />
-
-      {data?.map(workout => (
-        <WorkoutPreviewCard
-          key={workout.id}
-          id={workout.id}
-          title={workout.title}
-          exercisesCount={workout._count.exercises}
-          image={workout.image}
-        />
-      ))}
-
-      {activeTab === Tabs.MyWorkouts && (
-        <Button
-          style={styles.addButton}
-          onPress={() => router.push(`/trainings/create_workout`)}
-          title={'Добавить тренировку'}
-        />
-      )}
+      <FlatList
+        data={data}
+        renderItem={data => (
+          <WorkoutPreviewCard
+            key={data.item.id}
+            id={data.item.id}
+            title={data.item.title}
+            exercisesCount={data.item._count.exercises}
+            image={data.item.image}
+          />
+        )}
+        ListFooterComponent={
+          activeTab === Tabs.MyWorkouts ? (
+            <Button
+              style={styles.addButton}
+              onPress={() => router.push(`/trainings/create_workout`)}
+              title={'Добавить тренировку'}
+            />
+          ) : null
+        }
+      />
     </View>
   );
 }
@@ -67,13 +70,11 @@ export default function TrainingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: Color.Neutral.Gray_12,
     paddingVertical: Spacings.Padding.Normal,
     gap: Spacings.Gap.Normal,
   },
   addButton: {
     marginTop: Spacings.Margin.Normal,
-    width: '90%',
   },
 });

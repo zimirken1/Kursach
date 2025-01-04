@@ -13,7 +13,9 @@ export const styles = StyleSheet.create({
     marginHorizontal: Spacings.Margin.Normal,
     backgroundColor: Color.Neutral.Gray_10,
     borderRadius: 18,
-    overflow: 'hidden',
+
+    width: '100%',
+    alignSelf: 'center',
   },
   textContainer: {
     display: 'flex',
@@ -21,7 +23,7 @@ export const styles = StyleSheet.create({
     gap: Spacings.Gap.Small,
     marginLeft: Spacings.Margin.Normal,
   },
-  title: { fontSize: Fonts.FontSize.Large, color: Color.Neutral.Gray_2 },
-  details: { fontSize: Fonts.FontSize.Normal, color: Color.Neutral.Gray_2 },
+  title: { fontSize: Fonts.FontSize.Large, color: Color.Neutral.Gray_2, width: 150 },
+  details: { fontSize: Fonts.FontSize.Normal, color: Color.Neutral.Gray_2, width: 150 },
   image: { width: 160, height: 100, borderRadius: 18 },
 });

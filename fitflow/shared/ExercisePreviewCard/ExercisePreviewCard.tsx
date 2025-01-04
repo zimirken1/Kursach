@@ -8,10 +8,11 @@ type ExercisePreviewCardProps = {
   setsCount: number;
   repsCount: string;
   image?: string;
+  onPress?: () => void;
 };
-export const ExercisePreviewCard = ({ title, setsCount, repsCount, image }: ExercisePreviewCardProps) => {
+export const ExercisePreviewCard = ({ title, setsCount, repsCount, image, onPress }: ExercisePreviewCardProps) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.details}>{`${setsCount} подходов | ${repsCount} повторений`}</Text>

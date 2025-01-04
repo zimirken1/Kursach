@@ -15,6 +15,7 @@ model User {
   trainingPlans     TrainingPlan[]
   workouts          Workout[]
   trainingHistories TrainingHistory[]
+  exercise          Exercise[]
 }
 
 model Token {
@@ -58,8 +59,10 @@ model Exercise {
   repsCount        String
   defaultWeight    Float?
   image            String?
-  workoutId        String
-  workout          Workout           @relation(fields: [workoutId], references: [id])
+  workoutId        String?
+  workout          Workout?           @relation(fields: [workoutId], references: [id])
+  userId           String?
+  user             User?             @relation(fields: [userId], references: [id])
   exerciseSessions ExerciseSession[]
 }
 

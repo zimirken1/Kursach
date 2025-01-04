@@ -1,12 +1,4 @@
-type Exercise = {
-  id: string;
-  title: string;
-  setsCount: number;
-  repsCount: string;
-  defaultWeight: number;
-  image?: string;
-  workoutId: string;
-};
+import { Exercise } from '../exerciseApi/types';
 
 export type Workout = {
   id: string;

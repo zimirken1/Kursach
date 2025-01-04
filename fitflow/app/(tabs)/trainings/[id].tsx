@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useGlobalSearchParams } from 'expo-router';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { workoutQueryKeys } from '@/api/Api/workoutApi/types';
 import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi';
@@ -20,41 +21,41 @@ export default function TrainingDetailsScreen() {
   });
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.detailsContainer}>
-        <Image style={styles.image} source={{ uri: data?.image }} />
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.title}>{data?.title}</Text>
-          <Text style={styles.subtitle}>{`${data?._count.exercises} упражнений`}</Text>
-          <Text style={styles.description}>{data?.description}</Text>
-        </View>
-        <View style={styles.exercisesContainer}>
-          {data?.exercises.map(exercise => (
+    <View style={styles.detailsContainer}>
+      <View style={styles.exercisesContainer}>
+        <FlatList
+          ListHeaderComponent={
+            <>
+              <Image style={styles.image} source={{ uri: data?.image }} />
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.title}>{data?.title}</Text>
+                <Text style={styles.subtitle}>{`${data?._count.exercises} упражнений`}</Text>
+                <Text style={styles.description}>{data?.description}</Text>
+              </View>
+            </>
+          }
+          data={data?.exercises}
+          keyExtractor={item => item.id}
+          renderItem={data => (
             <ExercisePreviewCard
-              key={exercise.id}
-              title={exercise.title}
-              setsCount={exercise.setsCount}
-              repsCount={exercise.repsCount}
-              image={exercise.image}
+              key={data.item.id}
+              title={data.item.title}
+              setsCount={data.item.setsCount}
+              repsCount={data.item.repsCount}
+              image={data.item.image}
             />
-          ))}
-        </View>
-        <Button style={styles.button} title='Начать тренировку' />
+          )}
+        />
       </View>
-    </ScrollView>
+      <Button style={styles.button} title='Начать тренировку' />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  detailsContainer: {
     flex: 1,
     backgroundColor: Color.Neutral.Gray_12,
-  },
-  detailsContainer: {
-    marginVertical: Spacings.Margin.Normal,
-    flex: 1,
-    width: '100%',
-    borderRadius: 16,
   },
   image: {
     marginHorizontal: Spacings.Margin.Normal,

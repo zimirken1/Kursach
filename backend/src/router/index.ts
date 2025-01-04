@@ -4,6 +4,7 @@ import { body } from 'express-validator';
 import { userController } from '../controllers/user-controller/user-controller';
 import { authMiddleware } from 'src/middleware/auth-middleware';
 import { workoutController } from 'src/controllers/workout-controller/workout-controller';
+import { exerciseController } from 'src/controllers/exercise-controller/exercise-controller';
 
 export const router = Router();
 
@@ -23,3 +24,6 @@ router.get('/workouts/:id', authMiddleware, workoutController.getWorkout);
 router.delete('/workouts/:id', authMiddleware, workoutController.deleteWorkout);
 router.get('/workouts', authMiddleware, workoutController.getWorkouts);
 router.post('/workouts', authMiddleware, workoutController.createWorkout);
+
+router.get('/exercises', authMiddleware, exerciseController.getExercises);
+router.post('/exercises', authMiddleware, exerciseController.createExercise);

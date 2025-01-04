@@ -20,13 +20,8 @@ class WorkoutController {
     try {
       const { filter } = req.query;
       const userId = req.user?.id;
-      let workouts;
 
-      if (filter === 'my') {
-        workouts = await workoutService.getWorkouts(userId);
-      } else {
-        workouts = await workoutService.getWorkouts();
-      }
+      const workouts = await workoutService.getWorkouts(filter === 'my' ? userId : undefined);
 
       res.json(workouts);
     } catch (error) {

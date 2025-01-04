@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: Color.Neutral.Gray_10,
     borderRadius: 18,
-    width: '90%',
     height: Spacings.Size.XXXLarge,
   },
   trainingCardTitleContainer: {
