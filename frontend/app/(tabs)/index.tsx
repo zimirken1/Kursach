@@ -11,7 +11,7 @@ export default function HomeScreen() {
   const { data } = useQuery({ queryKey: ['Users'], queryFn: UserApi.getUsers });
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.title}>Главная</Text>
         <FlatList
@@ -30,6 +30,10 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Color.Neutral.Gray_12,
+    flex: 1,
+  },
   title: {
     color: Color.Neutral.Gray_2,
     alignSelf: 'center',

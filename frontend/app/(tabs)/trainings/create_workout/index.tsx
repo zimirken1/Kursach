@@ -130,11 +130,7 @@ export default function CreateWorkoutFormScreen() {
           <Text style={styles.addExerciseButtonText}>Добавить упражнение</Text>
         </TouchableOpacity>
 
-        <FlatList
-          data={exercises}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => <Text style={styles.exerciseItem}>{item.title}</Text>}
-        />
+        <FlatList data={exercises} renderItem={({ item }) => <Text style={styles.exerciseItem}>{item.title}</Text>} />
 
         <Button
           title='Создать тренировку'

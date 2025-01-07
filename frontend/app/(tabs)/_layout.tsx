@@ -12,7 +12,6 @@ export default function TabLayout() {
         headerShown: false,
         tabBarStyle: styles.container,
       }}
-      sceneContainerStyle={styles.container}
     >
       <Tabs.Screen
         name='index'
