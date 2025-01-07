@@ -5,7 +5,7 @@ const Margin = {
   Large: 24,
   XLarge: 32,
   XXLarge: 40,
-};
+}
 
 const Padding = {
   Small: 4,
@@ -14,7 +14,7 @@ const Padding = {
   Large: 24,
   XLarge: 32,
   XXLarge: 40,
-};
+}
 
 const Gap = {
   Small: 4,
@@ -23,7 +23,7 @@ const Gap = {
   Large: 24,
   XLarge: 32,
   XXLarge: 40,
-};
+}
 
 const Size = {
   Small: 4,
@@ -33,11 +33,11 @@ const Size = {
   XLarge: 32,
   XXLarge: 48,
   XXXLarge: 96,
-};
+}
 
 export const Spacings = {
   Margin,
   Padding,
   Gap,
   Size,
-};
+}

@@ -5,8 +5,8 @@ const FontSize = {
   Large: 20,
   XLarge: 24,
   XXLarge: 32,
-};
+}
 
 export const Fonts = {
   FontSize,
-};
+}

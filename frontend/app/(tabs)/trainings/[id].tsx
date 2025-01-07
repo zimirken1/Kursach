@@ -1,24 +1,24 @@
-import { useQuery } from '@tanstack/react-query';
-import { useGlobalSearchParams } from 'expo-router';
-import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { FlatList } from 'react-native';
+import { useQuery } from '@tanstack/react-query'
+import { useGlobalSearchParams } from 'expo-router'
+import React from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { FlatList } from 'react-native'
 
-import { workoutQueryKeys } from '@/api/Api/workoutApi/types';
-import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi';
-import { Button } from '@/shared/Button/Button';
-import { ExercisePreviewCard } from '@/shared/ExercisePreviewCard/ExercisePreviewCard';
-import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
-import { Spacings } from '@/styles/spacings';
+import { workoutQueryKeys } from '@/api/Api/workoutApi/types'
+import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi'
+import { Button } from '@/shared/Button/Button'
+import { ExercisePreviewCard } from '@/shared/ExercisePreviewCard/ExercisePreviewCard'
+import { Color } from '@/styles/colors'
+import { Fonts } from '@/styles/fonts'
+import { Spacings } from '@/styles/spacings'
 
 export default function TrainingDetailsScreen() {
-  const { id } = useGlobalSearchParams();
+  const { id } = useGlobalSearchParams()
 
   const { data } = useQuery({
     queryKey: [workoutQueryKeys.WORKOUT],
     queryFn: () => WorkoutApi.getWorkout(id as string),
-  });
+  })
 
   return (
     <View style={styles.detailsContainer}>
@@ -29,14 +29,16 @@ export default function TrainingDetailsScreen() {
               <Image style={styles.image} source={{ uri: data?.image }} />
               <View style={styles.descriptionContainer}>
                 <Text style={styles.title}>{data?.title}</Text>
-                <Text style={styles.subtitle}>{`${data?._count.exercises} упражнений`}</Text>
+                <Text
+                  style={styles.subtitle}
+                >{`${data?._count.exercises} упражнений`}</Text>
                 <Text style={styles.description}>{data?.description}</Text>
               </View>
             </>
           }
           data={data?.exercises}
-          keyExtractor={item => item.id}
-          renderItem={data => (
+          keyExtractor={(item) => item.id}
+          renderItem={(data) => (
             <ExercisePreviewCard
               key={data.item.id}
               title={data.item.title}
@@ -47,9 +49,9 @@ export default function TrainingDetailsScreen() {
           )}
         />
       </View>
-      <Button style={styles.button} title='Начать тренировку' />
+      <Button style={styles.button} title="Начать тренировку" />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -90,4 +92,4 @@ const styles = StyleSheet.create({
     marginVertical: Spacings.Margin.Normal,
     gap: Spacings.Gap.Normal,
   },
-});
+})

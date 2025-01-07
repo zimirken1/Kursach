@@ -1,23 +1,27 @@
-import React, { FC } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import React, { FC } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 
-import { styles } from './SwitchGroup.style';
+import { styles } from './SwitchGroup.style'
 
 type Tab = {
-  key: string;
-  label: string;
-};
+  key: string
+  label: string
+}
 
 type SwitchGroupProps = {
-  tabs: Tab[];
-  activeTab: string;
-  onTabChange: (key: string) => void;
-};
+  tabs: Tab[]
+  activeTab: string
+  onTabChange: (key: string) => void
+}
 
-export const SwitchGroup: FC<SwitchGroupProps> = ({ tabs, activeTab, onTabChange }) => {
+export const SwitchGroup: FC<SwitchGroupProps> = ({
+  tabs,
+  activeTab,
+  onTabChange,
+}) => {
   return (
     <View style={styles.tabs}>
-      {tabs.map(tab => (
+      {tabs.map((tab) => (
         <TouchableOpacity
           key={tab.key}
           style={[styles.tab, activeTab === tab.key && styles.activeTab]}
@@ -27,5 +31,5 @@ export const SwitchGroup: FC<SwitchGroupProps> = ({ tabs, activeTab, onTabChange
         </TouchableOpacity>
       ))}
     </View>
-  );
-};
+  )
+}

@@ -1,13 +1,13 @@
 export type Exercise = {
-  id: string;
-  title: string;
-  userId?: string;
-  image?: string;
-  setsCount: number;
-  repsCount: string;
-  defaultWeight?: number;
-  workoutId: string;
-};
+  id: string
+  title: string
+  userId?: string
+  image?: string
+  setsCount: number
+  repsCount: string
+  defaultWeight?: number
+  workoutId: string
+}
 
 export enum exerciseQueryKeys {
   EXERCISES = 'Exercises',

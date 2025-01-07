@@ -1,9 +1,9 @@
-import { Tabs } from 'expo-router';
-import { Dumbbell, House, Settings } from 'lucide-react-native';
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Tabs } from 'expo-router'
+import { Dumbbell, House, Settings } from 'lucide-react-native'
+import React from 'react'
+import { StyleSheet } from 'react-native'
 
-import { Color } from '@/styles/colors';
+import { Color } from '@/styles/colors'
 
 export default function TabLayout() {
   return (
@@ -14,7 +14,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name='index'
+        name="index"
         options={{
           tabBarActiveTintColor: Color.Primary.Color_7,
           tabBarInactiveTintColor: Color.Neutral.Gray_6,
@@ -23,21 +23,22 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='trainings'
+        name="trainings"
         options={{
           title: 'Тренировки',
           tabBarIcon: ({ color }) => <Dumbbell color={color} />,
+          headerShown: false,
         }}
       />
       <Tabs.Screen
-        name='profile'
+        name="profile"
         options={{
           title: 'Профиль',
           tabBarIcon: ({ color }) => <Settings color={color} />,
         }}
       />
     </Tabs>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -45,4 +46,4 @@ const styles = StyleSheet.create({
     backgroundColor: Color.Neutral.Gray_12,
     height: 90,
   },
-});
+})

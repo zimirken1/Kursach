@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
-import { Spacings } from '@/styles/spacings';
+import { Color } from '@/styles/colors'
+import { Fonts } from '@/styles/fonts'
+import { Spacings } from '@/styles/spacings'
 
 export const styles = StyleSheet.create({
   button: {
@@ -22,4 +22,4 @@ export const styles = StyleSheet.create({
     color: Color.Neutral.Gray_1,
     fontSize: Fonts.FontSize.Medium,
   },
-});
+})

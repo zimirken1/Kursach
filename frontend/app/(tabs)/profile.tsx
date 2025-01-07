@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import Settings from '@/screens/Settings/Settings';
+import Settings from '@/screens/Settings/Settings'
 
 const ProfileScreen = () => {
-  return <Settings />;
-};
+  return <Settings />
+}
 
-export default ProfileScreen;
+export default ProfileScreen

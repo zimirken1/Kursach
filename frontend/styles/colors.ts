@@ -12,7 +12,7 @@ const Neutral = {
   Gray_11: '#1f1f1f',
   Gray_12: '#141414',
   Gray_13: '#000000',
-};
+}
 
 const Primary = {
   Color_1: '#e6f7ff',
@@ -25,7 +25,7 @@ const Primary = {
   Color_8: '#0050b3',
   Color_9: '#003a8c',
   Color_10: '#002766',
-};
+}
 
 const Danger = {
   Color_1: '#fff1f0',
@@ -38,10 +38,10 @@ const Danger = {
   Color_8: '#a8071a',
   Color_9: '#820014',
   Color_10: '#5c0011',
-};
+}
 
 export const Color = {
   Danger,
   Neutral,
   Primary,
-};
+}

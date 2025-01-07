@@ -1,8 +1,8 @@
 export type AuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+  accessToken: string
+  refreshToken: string
   user: {
-    email: string;
-    id: string;
-  };
-};
+    email: string
+    id: string
+  }
+}

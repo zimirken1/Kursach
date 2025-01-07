@@ -1,29 +1,35 @@
-import { Exercise } from '../exerciseApi/types';
+import { Exercise } from '../exerciseApi/types'
 
 export type Workout = {
-  id: string;
-  title: string;
-  description: string;
-  userId?: string;
-  planId?: string;
-  image: '';
-  createdAt: string;
-  updatedAt: string;
-  exercises: Exercise[];
-};
+  id: string
+  title: string
+  description: string
+  userId?: string
+  planId?: string
+  image: ''
+  createdAt: string
+  updatedAt: string
+  exercises: Exercise[]
+}
 
-export type GetWorkout = Pick<Workout, 'id' | 'title' | 'description' | 'image'> & {
+export type GetWorkout = Pick<
+  Workout,
+  'id' | 'title' | 'description' | 'image'
+> & {
   _count: {
-    exercises: number;
-  };
-  exercises: Pick<Exercise, 'id' | 'title' | 'setsCount' | 'repsCount' | 'image'>[];
-};
+    exercises: number
+  }
+  exercises: Pick<
+    Exercise,
+    'id' | 'title' | 'setsCount' | 'repsCount' | 'image'
+  >[]
+}
 
 export type GetWorkouts = Pick<Workout, 'id' | 'title' | 'image'> & {
   _count: {
-    exercises: number;
-  };
-};
+    exercises: number
+  }
+}
 
 export enum workoutQueryKeys {
   WORKOUT = 'Workout',

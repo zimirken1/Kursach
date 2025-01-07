@@ -1,13 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-import { Color } from '@/styles/colors';
-import { Spacings } from '@/styles/spacings';
+import { Color } from '@/styles/colors'
+import { Spacings } from '@/styles/spacings'
 
 export const styles = StyleSheet.create({
   tabs: {
     display: 'flex',
     flexDirection: 'row',
-    marginVertical: Spacings.Margin.Normal,
+    marginHorizontal: Spacings.Margin.Normal,
     height: Spacings.Size.XXLarge,
     borderRadius: 18,
     backgroundColor: Color.Neutral.Gray_10,
@@ -26,4 +26,4 @@ export const styles = StyleSheet.create({
     backgroundColor: Color.Primary.Color_7,
     color: Color.Neutral.Gray_2,
   },
-});
+})

@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
-import { Spacings } from '@/styles/spacings';
+import { Color } from '@/styles/colors'
+import { Fonts } from '@/styles/fonts'
+import { Spacings } from '@/styles/spacings'
 
 export const styles = StyleSheet.create({
   trainingCard: {
@@ -35,4 +35,4 @@ export const styles = StyleSheet.create({
     height: Spacings.Size.XXXLarge,
     borderRadius: 18,
   },
-});
+})

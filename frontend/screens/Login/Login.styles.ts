@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
-import { Spacings } from '@/styles/spacings';
+import { Color } from '@/styles/colors'
+import { Fonts } from '@/styles/fonts'
+import { Spacings } from '@/styles/spacings'
 
 export const styles = StyleSheet.create({
   container: {
@@ -48,4 +48,4 @@ export const styles = StyleSheet.create({
     fontSize: Fonts.FontSize.Small,
     fontWeight: 'bold',
   },
-});
+})

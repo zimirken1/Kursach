@@ -1,17 +1,22 @@
-import { router } from 'expo-router';
-import React from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { router } from 'expo-router'
+import React from 'react'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 
-import { styles } from './WorkoutPreviewCard.style';
+import { styles } from './WorkoutPreviewCard.style'
 
 type WorkoutPreviewCardProps = {
-  id: string;
-  title: string;
-  exercisesCount?: number;
-  image?: string;
-};
+  id: string
+  title: string
+  exercisesCount?: number
+  image?: string
+}
 
-export const WorkoutPreviewCard = ({ id, title, exercisesCount, image }: WorkoutPreviewCardProps) => {
+export const WorkoutPreviewCard = ({
+  id,
+  title,
+  exercisesCount,
+  image,
+}: WorkoutPreviewCardProps) => {
   return (
     <TouchableOpacity
       onPress={() =>
@@ -31,9 +36,11 @@ export const WorkoutPreviewCard = ({ id, title, exercisesCount, image }: Workout
       {image && (
         <Image
           style={styles.trainingCardImage}
-          source={{ uri: 'https://miro.medium.com/v2/resize:fit:1400/0*6xo6m03tjxB-rNG2' }}
+          source={{
+            uri: 'https://miro.medium.com/v2/resize:fit:1400/0*6xo6m03tjxB-rNG2',
+          }}
         />
       )}
     </TouchableOpacity>
-  );
-};
+  )
+}

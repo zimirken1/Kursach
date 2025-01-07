@@ -1,31 +1,38 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Stack, useGlobalSearchParams, useRouter } from 'expo-router';
-import { ChevronLeft, MoreHorizontal } from 'lucide-react-native';
-import React from 'react';
-import { ActionSheetIOS, Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Stack, useGlobalSearchParams, useRouter } from 'expo-router'
+import React from 'react'
+import {
+  ActionSheetIOS,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native'
 
-import { workoutQueryKeys } from '@/api/Api/workoutApi/types';
-import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi';
-import { ApiError } from '@/api/types';
-import { Color } from '@/styles/colors';
-import { Fonts } from '@/styles/fonts';
+import { workoutQueryKeys } from '@/api/Api/workoutApi/types'
+import { WorkoutApi } from '@/api/Api/workoutApi/workoutApi'
+import { ApiError } from '@/api/types'
+import { Color } from '@/styles/colors'
+import { Fonts } from '@/styles/fonts'
+import { MoreHorizontal } from 'lucide-react-native'
+import { ExercisesSelectContextProvider } from '@/context/ExercisesSelectContext'
 
 export default function TrainingsLayout() {
-  const { id, showMoreIcon } = useGlobalSearchParams();
-  const router = useRouter();
-  const queryClient = useQueryClient();
+  const { id } = useGlobalSearchParams()
+  const router = useRouter()
+  const queryClient = useQueryClient()
 
   const mutation = useMutation({
     mutationFn: () => WorkoutApi.deleteWorkout(id as string),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [workoutQueryKeys.WORKOUTS, workoutQueryKeys.MY_WORKOUTS] });
-
-      router.back();
+      queryClient.invalidateQueries({
+        queryKey: [workoutQueryKeys.MY_WORKOUTS],
+      })
+      router.back()
     },
     onError: (error: ApiError) => {
-      Alert.alert('Ошибка', error.message);
+      Alert.alert('Ошибка', error.message)
     },
-  });
+  })
 
   const handleMorePress = () => {
     ActionSheetIOS.showActionSheetWithOptions(
@@ -34,45 +41,49 @@ export default function TrainingsLayout() {
         cancelButtonIndex: 0,
         destructiveButtonIndex: 1,
       },
-      buttonIndex => {
+      (buttonIndex) => {
         if (buttonIndex === 1) {
-          Alert.alert('Удалить тренировку', 'Вы уверены, что хотите удалить эту тренировку?', [
-            { text: 'Отмена', style: 'cancel' },
-            { text: 'Удалить', style: 'destructive', onPress: () => mutation.mutate() },
-          ]);
+          Alert.alert(
+            'Удалить тренировку',
+            'Вы уверены, что хотите удалить эту тренировку?',
+            [
+              { text: 'Отмена', style: 'cancel' },
+              {
+                text: 'Удалить',
+                style: 'destructive',
+                onPress: () => mutation.mutate(),
+              },
+            ]
+          )
         }
       }
-    );
-  };
-
-  const handleBackPress = () => {
-    router.setParams({ showMoreIcon: undefined });
-    router.back();
-  };
+    )
+  }
 
   return (
-    <Stack
-      screenOptions={{
-        headerBackTitle: 'Назад',
-        headerTitle: 'Тренировки',
-        headerStyle: { backgroundColor: Color.Neutral.Gray_12 },
-        headerTitleStyle: styles.title,
-        headerShadowVisible: false,
-        headerLeft: () => (
-          <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-            <ChevronLeft color={Color.Primary.Color_7} />
-            <Text style={styles.backButtonText}>Назад</Text>
-          </TouchableOpacity>
-        ),
-        headerRight: () =>
-          showMoreIcon ? (
-            <TouchableOpacity onPress={handleMorePress}>
-              <MoreHorizontal color={Color.Neutral.Gray_2} />
-            </TouchableOpacity>
-          ) : null,
-      }}
-    />
-  );
+    <ExercisesSelectContextProvider>
+      <Stack
+        screenOptions={{
+          headerTitle: 'Тренировки',
+          headerStyle: { backgroundColor: Color.Neutral.Gray_12 },
+          headerTitleStyle: styles.title,
+          headerShadowVisible: false,
+        }}
+      >
+        <Stack.Screen name="index" />
+        <Stack.Screen
+          options={{
+            headerRight: () => (
+              <TouchableOpacity onPress={handleMorePress}>
+                <MoreHorizontal color={Color.Neutral.Gray_2} />
+              </TouchableOpacity>
+            ),
+          }}
+          name="[id]"
+        />
+      </Stack>
+    </ExercisesSelectContextProvider>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -90,4 +101,4 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: Color.Primary.Color_7,
   },
-});
+})
